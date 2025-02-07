@@ -1,4 +1,9 @@
 package com.nicolascristaldo.myclients.data.repositories
 
-class CustomerRepository {
+import com.nicolascristaldo.myclients.data.room.dao.CustomerDao
+import javax.inject.Inject
+
+class CustomerRepository @Inject constructor(
+    private val customerDao: CustomerDao
+) {
 }

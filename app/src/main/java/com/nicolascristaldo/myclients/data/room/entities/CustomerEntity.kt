@@ -3,6 +3,7 @@ package com.nicolascristaldo.myclients.data.room.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.nicolascristaldo.myclients.domain.model.Customer
 
 /**
  * Represents a customer entity in the database.
@@ -21,4 +22,17 @@ data class CustomerEntity(
     @ColumnInfo(name = "phone") val phone: String,
     @ColumnInfo(name = "address") val address: String,
     @ColumnInfo(name = "genre") val genre: String
+)
+
+/**
+ * Converts a [Customer] object (domain model) to a [CustomerEntity] object (database entity).
+ * @return A [CustomerEntity] instance with mapped fields from [Customer].
+ */
+fun Customer.toDatabase() = CustomerEntity(
+    id = id,
+    name = name,
+    email = email,
+    phone = phone,
+    address = address,
+    genre = genre
 )

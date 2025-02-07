@@ -16,12 +16,12 @@ import com.nicolascristaldo.myclients.data.room.entities.OrderEntity
 )
 abstract class AppDatabase: RoomDatabase() {
     /**
-     * @return the DAO for the Customer entity.
+     * @return the [CustomerDao] for the Customer entity.
      */
     abstract fun customerDao(): CustomerDao
 
     /**
-     * @return the DAO for the Order entity.
+     * @return the [OrderDao] for the Order entity.
      */
     abstract fun orderDao(): OrderDao
 }

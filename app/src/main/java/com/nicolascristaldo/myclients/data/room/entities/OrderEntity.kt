@@ -3,6 +3,7 @@ package com.nicolascristaldo.myclients.data.room.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.nicolascristaldo.myclients.domain.model.Order
 
 /**
  * Represents an order entity in the database.
@@ -29,4 +30,16 @@ data class OrderEntity(
     @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "total") val total: Double,
     @ColumnInfo(name = "is_paid") val isPaid: Boolean = false
+)
+
+/**
+ * Converts an [Order] object (domain model) to an [OrderEntity] object (database entity).
+ * @return An [OrderEntity] instance with mapped fields from [Order].
+ */
+fun Order.toDatabase() = OrderEntity(
+    id = id,
+    customerId = customerId,
+    date = date,
+    total = total,
+    isPaid = isPaid
 )

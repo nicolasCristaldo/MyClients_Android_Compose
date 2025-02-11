@@ -47,7 +47,7 @@ interface OrderDao {
      * @return A [Flow] emitting the order with the specified ID.
      */
     @Query("SELECT * FROM orders WHERE id = :id")
-    fun getOrderById(id: Int): Flow<OrderEntity>
+    fun getOrderById(id: Int): Flow<OrderEntity?>
 
     /**
      * Retrieves a list of orders associated with a specific customer ID from the database.
@@ -70,12 +70,12 @@ interface OrderDao {
      * @return A [Double] representing the total amount of orders.
      */
     @Query("SELECT SUM(total) FROM orders WHERE is_paid = 1")
-    suspend fun getTotalEarned(): Double
+    suspend fun getTotalEarned(): Double?
 
     /**
      * Retrieves the total amount of pending orders from the database.
      * @return A [Double] representing the total amount of pending orders.
      */
     @Query("SELECT SUM(total) FROM orders WHERE is_paid = 0")
-    suspend fun getTotalPending(): Double
+    suspend fun getTotalPending(): Double?
 }

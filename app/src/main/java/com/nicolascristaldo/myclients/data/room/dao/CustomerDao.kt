@@ -47,7 +47,7 @@ interface CustomerDao {
      * @return A [Flow] emitting the customer with the specified ID.
      */
     @Query("SELECT * FROM customers WHERE id = :id")
-    fun getCustomerById(id: Int): Flow<CustomerEntity>
+    fun getCustomerById(id: Int): Flow<CustomerEntity?>
 
     /**
      * Retrieves a list of customers with a specific name from the database.

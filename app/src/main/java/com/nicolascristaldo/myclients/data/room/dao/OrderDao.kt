@@ -78,4 +78,20 @@ interface OrderDao {
      */
     @Query("SELECT SUM(total) FROM orders WHERE is_paid = 0")
     suspend fun getTotalPending(): Double?
+
+    /**
+     * Retrieves the total amount of paid orders for a specific customer from the database.
+     * @param customerId The ID of the customer.
+     * @return A [Double] representing the total amount of paid orders for the customer.
+     */
+    @Query("SELECT SUM(total) FROM orders WHERE customer_id = :customerId AND is_paid = 1")
+    suspend fun getTotalPaidByCustomer(customerId: Int): Double?
+
+    /**
+     * Retrieves the total amount of pending orders for a specific customer from the database.
+     * @param customerId The ID of the customer.
+     * @return A [Double] representing the total amount of pending orders for the customer.
+     */
+    @Query("SELECT SUM(total) FROM orders WHERE customer_id = :customerId AND is_paid = 0")
+    suspend fun getTotalPendingByCustomer(customerId: Int): Double?
 }

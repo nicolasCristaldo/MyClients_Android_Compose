@@ -78,4 +78,21 @@ class OrderRepository @Inject constructor(
      */
     suspend fun getTotalPending(): Double? =
         withContext(Dispatchers.IO) { orderDao.getTotalPending() }
+
+    /**
+     * Retrieves the total amount of paid orders for a specific customer from the database.
+     * @param customerId The ID of the customer.
+     * @return A [Double] representing the total amount of paid orders for the customer.
+     */
+    suspend fun getTotalPaidByCustomer(customerId: Int): Double? =
+        withContext(Dispatchers.IO) { orderDao.getTotalPaidByCustomer(customerId) }
+
+    /**
+     * Retrieves the total amount of pending orders for a specific customer from the database.
+     * @param customerId The ID of the customer.
+     * @return A [Double] representing the total amount of pending orders for the customer.
+     */
+    suspend fun getTotalPendingByCustomer(customerId: Int): Double? =
+        withContext(Dispatchers.IO) { orderDao.getTotalPendingByCustomer(customerId) }
+
 }

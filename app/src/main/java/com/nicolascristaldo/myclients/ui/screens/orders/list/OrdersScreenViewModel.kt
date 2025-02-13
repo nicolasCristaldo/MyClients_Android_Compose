@@ -1,4 +1,4 @@
-package com.nicolascristaldo.myclients.ui.screens.orders
+package com.nicolascristaldo.myclients.ui.screens.orders.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

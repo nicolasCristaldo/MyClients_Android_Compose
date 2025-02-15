@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">My Clients</string>
+    <string name="clients_screen">Clients</string>
+    <string name="orders_screen">Orders</string>
+    <string name="stats_screen">Stats</string>
+    <string name="client_details_screen">Client Details</string>
+    <string name="client_form_add_screen">Add Client</string>
+    <string name="client_form_edit_screen">Edit Client</string>
+    <string name="order_form_add_screen">Add Order</string>
+    <string name="order_form_edit_screen">Edit Order</string>
 </resources>

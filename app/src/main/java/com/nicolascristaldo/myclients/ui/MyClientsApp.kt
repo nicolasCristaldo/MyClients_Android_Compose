@@ -7,17 +7,23 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.nicolascristaldo.myclients.data.providers.NavigationItemsProvider
 import com.nicolascristaldo.myclients.ui.navigation.AppDestinations
 import com.nicolascristaldo.myclients.ui.navigation.MyClientsNavHost
 import com.nicolascristaldo.myclients.ui.screens.clients.form.ClientFormViewModel
@@ -52,6 +58,11 @@ fun MyClientsApp(
             MyClientsTopAppBar(
                 currentScreen = currentScreen,
                 navigateBack = { navController.navigateUp() }
+            )
+        },
+        bottomBar = {
+            MyClientsBottomBar(
+                navController = navController
             )
         }
     ) { contentPadding ->
@@ -97,4 +108,37 @@ fun MyClientsTopAppBar(
         },
         modifier = modifier
     )
+}
+
+@Composable
+fun MyClientsBottomBar(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    val navigationItems = remember { NavigationItemsProvider.getNavigationItems() }
+    var currentScreen by remember { mutableIntStateOf(0) }
+
+    NavigationBar(
+        modifier = modifier
+    ) {
+        navigationItems.forEachIndexed { index, navigationItem ->
+            val selected = index == currentScreen
+            NavigationBarItem(
+                selected = selected,
+                onClick = {
+                    currentScreen = index
+                    navController.navigate(navigationItem.name)
+                },
+                icon = {
+                    Icon(
+                        imageVector = if (selected) navigationItem.selectedIcon else navigationItem.unselectedIcon,
+                        contentDescription = navigationItem.name
+                    )
+                },
+                label = {
+                    Text(text = navigationItem.name)
+                }
+            )
+        }
+    }
 }

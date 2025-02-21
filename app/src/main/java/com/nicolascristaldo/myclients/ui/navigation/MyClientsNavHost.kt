@@ -2,17 +2,20 @@ package com.nicolascristaldo.myclients.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.nicolascristaldo.myclients.ui.screens.clients.details.ClientDetailsScreen
+import com.nicolascristaldo.myclients.ui.screens.clients.details.ClientDetailsViewModel
 import com.nicolascristaldo.myclients.ui.screens.clients.form.ClientFormScreen
 import com.nicolascristaldo.myclients.ui.screens.clients.form.ClientFormViewModel
 import com.nicolascristaldo.myclients.ui.screens.clients.list.ClientsScreen
-import com.nicolascristaldo.myclients.ui.screens.clients.list.ClientsScreenViewModel
 import com.nicolascristaldo.myclients.ui.screens.home.HomeScreen
 import com.nicolascristaldo.myclients.ui.screens.orders.form.OrderFormScreen
 import com.nicolascristaldo.myclients.ui.screens.orders.form.OrderFormViewModel
@@ -22,7 +25,7 @@ import com.nicolascristaldo.myclients.ui.screens.stats.StatsScreen
 
 @Composable
 fun MyClientsNavHost(
-    clientsScreenViewModel: ClientsScreenViewModel,
+    clientDetailsViewModel: ClientDetailsViewModel = hiltViewModel(),
     ordersScreenViewModel: OrdersScreenViewModel,
     clientFormViewModel: ClientFormViewModel,
     orderFormViewModel: OrderFormViewModel,
@@ -41,11 +44,18 @@ fun MyClientsNavHost(
         }
 
         composable(route = AppDestinations.Clients.route) {
-            ClientsScreen()
+            ClientsScreen(
+                onClientClick = {
+                    navController.navigate(AppDestinations.ClientDetails.createRoute(id = it))
+                }
+            )
         }
 
         composable(route = AppDestinations.Orders.route) {
-            OrdersScreen()
+            val orders by ordersScreenViewModel.orders.collectAsState()
+            OrdersScreen(
+                orders = orders
+            )
         }
 
         composable(route = AppDestinations.Stats.route) {
@@ -58,10 +68,21 @@ fun MyClientsNavHost(
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("id") ?: 0
             LaunchedEffect(id) {
-                //getDetails(id)
+                clientDetailsViewModel.getClient(id)
+                clientDetailsViewModel.getOrdersByCustomerId(id)
+                clientDetailsViewModel.getTotalPaid(id)
+                clientDetailsViewModel.getTotalPending(id)
             }
 
-            ClientDetailsScreen()
+            ClientDetailsScreen(
+                onEditClick = {
+                    navController.navigate(AppDestinations.ClientFormEdit.createRoute(id = it))
+                },
+                viewModel = clientDetailsViewModel,
+                onAddOrderClick = {
+                    navController.navigate(AppDestinations.OrderFormAdd.createRoute(customerId = id))
+                }
+            )
         }
 
         composable(
@@ -69,7 +90,10 @@ fun MyClientsNavHost(
         ) {
             ClientFormScreen(
                 clientUiState = clientFormViewModel.clientUiState,
-                onClick = { clientFormViewModel.saveClient() },
+                onClick = {
+                    clientFormViewModel.saveClient()
+                    navController.popBackStack()
+                },
                 onValueChange = { clientFormViewModel.updateUiState(it) },
                 buttonTitle = "Save"
             )
@@ -86,16 +110,34 @@ fun MyClientsNavHost(
 
             ClientFormScreen(
                 clientUiState = clientFormViewModel.clientUiState,
-                onClick = { clientFormViewModel.updateClient() },
+                onClick = {
+                    clientFormViewModel.updateClient()
+                    navController.popBackStack()
+                },
                 onValueChange = { clientFormViewModel.updateUiState(it) },
                 buttonTitle = "Edit"
             )
         }
 
         composable(
-            route = AppDestinations.OrderFormAdd.route
-        ) {
-            OrderFormScreen()
+            route = AppDestinations.OrderFormAdd.route,
+            arguments = listOf(navArgument("customerId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val customerId = backStackEntry.arguments?.getInt("customerId") ?: 0
+            LaunchedEffect(customerId) {
+                orderFormViewModel.updateUiState(
+                    orderFormViewModel.orderUiState.orderDetails.copy(customerId = customerId)
+                )
+            }
+
+            OrderFormScreen(
+                orderUiState = orderFormViewModel.orderUiState,
+                onValueChange = { orderFormViewModel.updateUiState(it) },
+                onClick = {
+                    orderFormViewModel.saveOrder()
+                    navController.popBackStack()
+                }
+            )
         }
 
         composable(
@@ -104,10 +146,17 @@ fun MyClientsNavHost(
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("id") ?: 0
             LaunchedEffect(id) {
-                //if(id != 0) retrieveOrder(id)
+                if(id != 0) orderFormViewModel.retrieveOrder(id)
             }
 
-            OrderFormScreen()
+            OrderFormScreen(
+                orderUiState = orderFormViewModel.orderUiState,
+                onValueChange = { orderFormViewModel.updateUiState(it) },
+                onClick = {
+                    orderFormViewModel.updateOrder()
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

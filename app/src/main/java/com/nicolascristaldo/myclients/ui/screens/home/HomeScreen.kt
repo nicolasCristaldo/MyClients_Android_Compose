@@ -33,14 +33,6 @@ fun HomeScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         HomeCard(
-            onClick = { navController.navigate(AppDestinations.OrderFormAdd.route) },
-            title = "add orders",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        HomeCard(
             onClick = { navController.navigate(AppDestinations.Stats.route) },
             title = "Stats",
             modifier = Modifier

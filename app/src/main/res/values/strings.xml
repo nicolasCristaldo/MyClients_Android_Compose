@@ -8,4 +8,8 @@
     <string name="client_form_edit_screen">Edit Client</string>
     <string name="order_form_add_screen">Add Order</string>
     <string name="order_form_edit_screen">Edit Order</string>
+
+    <string name="male_genre">Male</string>
+    <string name="female_genre">Female</string>
+    <string name="other_genre">Other</string>
 </resources>

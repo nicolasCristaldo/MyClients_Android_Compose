@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter
  * @property customerId The ID of the customer associated with the order.
  * @property date The date of the order.
  * @property total The total amount of the order.
+ * @property description The description of the order.
  * @property isPaid A flag indicating whether the order is paid or not.
  */
 data class Order(
@@ -17,6 +18,7 @@ data class Order(
     val customerId: Int,
     val date: String = getCurrentDateTime(),
     val total: Double,
+    val description: String,
     val isPaid: Boolean = false
 ) {
     companion object {
@@ -40,5 +42,6 @@ fun OrderEntity.toDomain() = Order(
     customerId = customerId,
     date = date,
     total = total,
+    description = description,
     isPaid = isPaid
 )

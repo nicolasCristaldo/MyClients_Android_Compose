@@ -12,12 +12,14 @@ data class OrderUiState(
 data class OrderDetails(
     val id: Int = 0,
     val customerId: Int = 0,
-    val total: String = ""
+    val total: String = "",
+    val description: String = "",
 )
 
 fun OrderDetails.toOrder(): Order = Order(
     id = id,
     customerId = customerId,
+    description = description,
     total = try {
         total.toDouble()
     } catch (e: Exception) {
@@ -28,7 +30,8 @@ fun OrderDetails.toOrder(): Order = Order(
 fun Order.toOrderDetails(): OrderDetails = OrderDetails(
     id = id,
     customerId = customerId,
-    total = total.toString()
+    total = total.toString(),
+    description = description
 )
 
 fun Order.toUiState(isEntryValid: Boolean = false): OrderUiState = OrderUiState(

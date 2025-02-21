@@ -26,7 +26,9 @@ object RoomModule {
         context,
         AppDatabase::class.java,
         DATABASE_NAME
-    ).build()
+    )
+        .fallbackToDestructiveMigration()
+        .build()
 
     /**
      * Provides a singleton instance of the CustomerDao.

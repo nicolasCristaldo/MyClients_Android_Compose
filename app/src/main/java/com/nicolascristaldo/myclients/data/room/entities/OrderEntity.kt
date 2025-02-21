@@ -11,6 +11,7 @@ import com.nicolascristaldo.myclients.domain.model.Order
  * @property customerId The ID of the customer associated with the order.
  * @property date The date of the order.
  * @property total The total amount of the order.
+ * @property description The description of the order.
  * @property isPaid A flag indicating whether the order is paid or not.
  */
 @Entity(
@@ -29,6 +30,7 @@ data class OrderEntity(
     @ColumnInfo(name = "customer_id") val customerId: Int,
     @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "total") val total: Double,
+    @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "is_paid") val isPaid: Boolean = false
 )
 
@@ -41,5 +43,6 @@ fun Order.toDatabase() = OrderEntity(
     customerId = customerId,
     date = date,
     total = total,
+    description = description,
     isPaid = isPaid
 )

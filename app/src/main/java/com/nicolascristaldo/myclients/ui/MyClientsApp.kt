@@ -27,13 +27,11 @@ import com.nicolascristaldo.myclients.data.providers.NavigationItemsProvider
 import com.nicolascristaldo.myclients.ui.navigation.AppDestinations
 import com.nicolascristaldo.myclients.ui.navigation.MyClientsNavHost
 import com.nicolascristaldo.myclients.ui.screens.clients.form.ClientFormViewModel
-import com.nicolascristaldo.myclients.ui.screens.clients.list.ClientsScreenViewModel
 import com.nicolascristaldo.myclients.ui.screens.orders.form.OrderFormViewModel
 import com.nicolascristaldo.myclients.ui.screens.orders.list.OrdersScreenViewModel
 
 @Composable
 fun MyClientsApp(
-    clientsScreenViewModel: ClientsScreenViewModel = hiltViewModel(),
     ordersScreenViewModel: OrdersScreenViewModel = hiltViewModel(),
     clientFormViewModel: ClientFormViewModel = hiltViewModel(),
     orderFormViewModel: OrderFormViewModel = hiltViewModel(),
@@ -68,7 +66,6 @@ fun MyClientsApp(
     ) { contentPadding ->
         Surface {
             MyClientsNavHost(
-                clientsScreenViewModel = clientsScreenViewModel,
                 ordersScreenViewModel = ordersScreenViewModel,
                 clientFormViewModel = clientFormViewModel,
                 orderFormViewModel = orderFormViewModel,
@@ -93,8 +90,7 @@ fun MyClientsTopAppBar(
         navigationIcon = {
             if(
                 currentScreen.route != AppDestinations.Home.route &&
-                currentScreen.route != AppDestinations.Clients.route &&
-                currentScreen.route != AppDestinations.Orders.route
+                currentScreen.route != AppDestinations.Clients.route
             ) {
                 IconButton(
                     onClick = { navigateBack() }

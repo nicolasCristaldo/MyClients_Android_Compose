@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -47,6 +48,15 @@ fun OrderFormScreen(
             singleLine = true
         )
 
+        Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
+        Switch(
+            checked = orderUiState.orderDetails.isPaid,
+            onCheckedChange = {
+                onValueChange(orderUiState.orderDetails.copy(isPaid = it))
+            }
+        )
+
         Spacer(modifier = Modifier.padding(vertical = 16.dp))
 
         Button(
@@ -56,7 +66,7 @@ fun OrderFormScreen(
             Text(text = "Save")
         }
         Text(
-            text = "id: ${orderUiState.orderDetails.customerId}"
+            text = "id: ${orderUiState.orderDetails.id}"
         )
     }
 }

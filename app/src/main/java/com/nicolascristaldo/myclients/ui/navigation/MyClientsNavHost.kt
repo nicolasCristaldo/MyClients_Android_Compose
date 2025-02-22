@@ -54,7 +54,10 @@ fun MyClientsNavHost(
         composable(route = AppDestinations.Orders.route) {
             val orders by ordersScreenViewModel.orders.collectAsState()
             OrdersScreen(
-                orders = orders
+                orders = orders,
+                onClick = {
+                    navController.navigate(AppDestinations.OrderFormEdit.createRoute(id = it))
+                }
             )
         }
 
@@ -81,6 +84,9 @@ fun MyClientsNavHost(
                 viewModel = clientDetailsViewModel,
                 onAddOrderClick = {
                     navController.navigate(AppDestinations.OrderFormAdd.createRoute(customerId = id))
+                },
+                onOrderClick = {
+                    navController.navigate(AppDestinations.OrderFormEdit.createRoute(id = it))
                 }
             )
         }
@@ -125,9 +131,11 @@ fun MyClientsNavHost(
         ) { backStackEntry ->
             val customerId = backStackEntry.arguments?.getInt("customerId") ?: 0
             LaunchedEffect(customerId) {
-                orderFormViewModel.updateUiState(
-                    orderFormViewModel.orderUiState.orderDetails.copy(customerId = customerId)
-                )
+                if (customerId != 0) {
+                    orderFormViewModel.updateUiState(
+                        orderFormViewModel.orderUiState.orderDetails.copy(customerId = customerId)
+                    )
+                }
             }
 
             OrderFormScreen(

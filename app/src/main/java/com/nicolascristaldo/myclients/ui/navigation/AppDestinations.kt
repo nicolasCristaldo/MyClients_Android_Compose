@@ -46,16 +46,16 @@ sealed class AppDestinations(
     }
 
     data object OrderFormAdd: AppDestinations(
-        route = "order/form/{customerId}",
+        route = "order/form/add/{customerId}",
         title = R.string.order_form_add_screen
     ) {
-        fun createRoute(customerId: Int) = "order/form/$customerId"
+        fun createRoute(customerId: Int) = "order/form/add/$customerId"
     }
 
     data object OrderFormEdit : AppDestinations(
-        route = "order/form/{id}",
+        route = "order/form/edit/{id}",
         title = R.string.order_form_edit_screen
     ) {
-        fun createRoute(id: Int) = "order/form/$id"
+        fun createRoute(id: Int) = "order/form/edit/$id"
     }
 }

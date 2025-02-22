@@ -3,8 +3,14 @@ package com.nicolascristaldo.myclients.ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
@@ -15,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -26,12 +33,14 @@ import androidx.navigation.compose.rememberNavController
 import com.nicolascristaldo.myclients.data.providers.NavigationItemsProvider
 import com.nicolascristaldo.myclients.ui.navigation.AppDestinations
 import com.nicolascristaldo.myclients.ui.navigation.MyClientsNavHost
+import com.nicolascristaldo.myclients.ui.screens.clients.details.ClientDetailsViewModel
 import com.nicolascristaldo.myclients.ui.screens.clients.form.ClientFormViewModel
 import com.nicolascristaldo.myclients.ui.screens.orders.form.OrderFormViewModel
 import com.nicolascristaldo.myclients.ui.screens.orders.list.OrdersScreenViewModel
 
 @Composable
 fun MyClientsApp(
+    clientDetailsViewModel: ClientDetailsViewModel = hiltViewModel(),
     ordersScreenViewModel: OrdersScreenViewModel = hiltViewModel(),
     clientFormViewModel: ClientFormViewModel = hiltViewModel(),
     orderFormViewModel: OrderFormViewModel = hiltViewModel(),
@@ -39,7 +48,7 @@ fun MyClientsApp(
     modifier: Modifier = Modifier
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = when(backStackEntry?.destination?.route) {
+    val currentScreen = when (backStackEntry?.destination?.route) {
         AppDestinations.Clients.route -> AppDestinations.Clients
         AppDestinations.Orders.route -> AppDestinations.Orders
         AppDestinations.Stats.route -> AppDestinations.Stats
@@ -62,6 +71,30 @@ fun MyClientsApp(
             MyClientsBottomBar(
                 navController = navController
             )
+        },
+        floatingActionButton = {
+            if (
+                currentScreen.route == AppDestinations.Clients.route ||
+                currentScreen.route == AppDestinations.ClientDetails.route
+            ) {
+                FloatingActionButton(
+                    onClick = {
+                        if (currentScreen.route == AppDestinations.Clients.route){
+                            navController.navigate(AppDestinations.ClientFormAdd.route)
+                        }
+                        else {
+                            navController.navigate(AppDestinations.OrderFormAdd.createRoute(
+                                clientDetailsViewModel.client.value?.id ?: 0
+                            ))
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "add"
+                    )
+                }
+            }
         }
     ) { contentPadding ->
         Surface {
@@ -83,12 +116,45 @@ fun MyClientsTopAppBar(
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var expanded by remember { mutableStateOf(false) }
     CenterAlignedTopAppBar(
         title = {
             Text(stringResource(currentScreen.title))
         },
+        actions = {
+            if (currentScreen.route == AppDestinations.ClientDetails.route) {
+                IconButton(
+                    onClick = { expanded = !expanded }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = "options"
+                    )
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Edit") },
+                            onClick = {
+                                expanded = false
+                                //navigateToClientFormEdit()
+                            }
+                        )
+                        HorizontalDivider()
+                        DropdownMenuItem(
+                            text = { Text("Delete") },
+                            onClick = {
+                                expanded = false
+                                //deleteClient()
+                            }
+                        )
+                    }
+                }
+            }
+        },
         navigationIcon = {
-            if(
+            if (
                 currentScreen.route != AppDestinations.Home.route &&
                 currentScreen.route != AppDestinations.Clients.route
             ) {

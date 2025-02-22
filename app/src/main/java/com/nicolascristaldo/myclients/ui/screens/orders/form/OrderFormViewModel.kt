@@ -15,15 +15,15 @@ import javax.inject.Inject
 @HiltViewModel
 class OrderFormViewModel @Inject constructor(
     private val orderRepository: OrderRepository
-): ViewModel() {
+) : ViewModel() {
     var orderUiState by mutableStateOf(OrderUiState())
-    private set
+        private set
 
     fun retrieveOrder(id: Int) = viewModelScope.launch {
         orderRepository.getOrderById(id)
             .filterNotNull()
-            .collectLatest { customer ->
-                orderUiState = customer.toUiState(isEntryValid = true)
+            .collectLatest { order ->
+                orderUiState = order.toUiState(isEntryValid = true)
             }
     }
 
@@ -45,14 +45,14 @@ class OrderFormViewModel @Inject constructor(
     }
 
     fun saveOrder() = viewModelScope.launch {
-        if(validateInput()) {
+        if (validateInput()) {
             orderRepository.insertOrder(orderUiState.orderDetails.toOrder())
         }
         resetUiState()
     }
 
     fun updateOrder() = viewModelScope.launch {
-        if(validateInput(orderUiState.orderDetails)) {
+        if (validateInput(orderUiState.orderDetails)) {
             orderRepository.updateOrder(orderUiState.orderDetails.toOrder())
         }
         resetUiState()

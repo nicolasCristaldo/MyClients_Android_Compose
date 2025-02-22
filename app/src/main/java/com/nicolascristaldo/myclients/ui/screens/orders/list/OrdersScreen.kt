@@ -1,5 +1,6 @@
 package com.nicolascristaldo.myclients.ui.screens.orders.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,10 +21,12 @@ import com.nicolascristaldo.myclients.domain.model.Order
 @Composable
 fun OrdersScreen(
     orders: List<Order>,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     OrderListScreen(
         orders = orders,
+        onClick = onClick,
         modifier = modifier
     )
 }
@@ -31,6 +34,7 @@ fun OrdersScreen(
 @Composable
 fun OrderListScreen(
     orders: List<Order>,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -38,7 +42,10 @@ fun OrderListScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(orders) { order ->
-            OrderCard(order = order)
+            OrderCard(
+                order = order,
+                onClick = onClick
+            )
         }
     }
 }
@@ -46,13 +53,19 @@ fun OrderListScreen(
 @Composable
 fun OrderCard(
     order: Order,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .padding(vertical = 8.dp)
             .fillMaxWidth()
+            .clickable {
+                onClick(order.id)
+            }
     ) {
+        Text(text = "Order #${order.id}")
+        Text(text = order.customerId.toString())
         Text(text = order.description)
         Text(
             text = "status: " + if (order.isPaid) {

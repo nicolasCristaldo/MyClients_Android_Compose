@@ -13,7 +13,7 @@ data class ClientDetails(
     val email: String = "",
     val phone: String = "",
     val address: String = "",
-    val genre: String = "m"
+    val genre: String = "male"
 )
 
 fun ClientDetails.toCustomer(): Customer = Customer(

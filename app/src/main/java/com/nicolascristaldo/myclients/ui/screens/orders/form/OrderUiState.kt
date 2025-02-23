@@ -22,12 +22,12 @@ fun OrderDetails.toOrder(): Order = Order(
     customerId = customerId,
     description = description,
     isPaid = isPaid,
-    date = date,
     total = try {
         total.toDouble()
     } catch (e: Exception) {
         0.0
-    }
+    },
+    date = date.ifBlank { Order.getCurrentDateTime() }
 )
 
 fun Order.toOrderDetails(): OrderDetails = OrderDetails(

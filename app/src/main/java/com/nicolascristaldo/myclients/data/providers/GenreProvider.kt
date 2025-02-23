@@ -8,6 +8,12 @@ data class Genre(
 )
 
 object GenreProvider {
+    val genres = listOf(
+        "male",
+        "female",
+        "other"
+    )
+
     fun getGenreByName(name: String): Genre {
         when(name) {
             "male" -> return Genre(R.string.male_genre, R.drawable.ic_male)

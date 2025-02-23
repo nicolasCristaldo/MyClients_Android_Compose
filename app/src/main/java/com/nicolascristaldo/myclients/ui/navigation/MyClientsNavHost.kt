@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,7 +24,7 @@ import com.nicolascristaldo.myclients.ui.screens.stats.StatsScreen
 
 @Composable
 fun MyClientsNavHost(
-    clientDetailsViewModel: ClientDetailsViewModel = hiltViewModel(),
+    clientDetailsViewModel: ClientDetailsViewModel,
     ordersScreenViewModel: OrdersScreenViewModel,
     clientFormViewModel: ClientFormViewModel,
     orderFormViewModel: OrderFormViewModel,
@@ -94,6 +93,10 @@ fun MyClientsNavHost(
         composable(
             route = AppDestinations.ClientFormAdd.route
         ) {
+            LaunchedEffect(Unit) {
+                clientFormViewModel.resetUiState()
+            }
+
             ClientFormScreen(
                 clientUiState = clientFormViewModel.clientUiState,
                 onClick = {
@@ -131,6 +134,7 @@ fun MyClientsNavHost(
         ) { backStackEntry ->
             val customerId = backStackEntry.arguments?.getInt("customerId") ?: 0
             LaunchedEffect(customerId) {
+                orderFormViewModel.resetUiState()
                 if (customerId != 0) {
                     orderFormViewModel.updateUiState(
                         orderFormViewModel.orderUiState.orderDetails.copy(customerId = customerId)
@@ -162,6 +166,10 @@ fun MyClientsNavHost(
                 onValueChange = { orderFormViewModel.updateUiState(it) },
                 onClick = {
                     orderFormViewModel.updateOrder()
+                    navController.popBackStack()
+                },
+                onDelete = {
+                    orderFormViewModel.deleteOrder()
                     navController.popBackStack()
                 }
             )

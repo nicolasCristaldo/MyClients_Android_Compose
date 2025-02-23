@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter
 data class Order(
     val id: Int,
     val customerId: Int,
-    val date: String = getCurrentDateTime(),
+    val date: String,
     val total: Double,
     val description: String,
     val isPaid: Boolean = false
@@ -27,7 +27,7 @@ data class Order(
          * @return A [String] representing the current date and time.
          */
         fun getCurrentDateTime(): String {
-            val formatter = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm")
+            val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm")
             return LocalDateTime.now().format(formatter)
         }
     }

@@ -2,8 +2,10 @@ package com.nicolascristaldo.myclients.ui.screens.orders.form
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -19,6 +21,7 @@ fun OrderFormScreen(
     orderUiState: OrderUiState,
     onValueChange: (OrderDetails) -> Unit,
     onClick: () -> Unit,
+    onDelete: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -59,14 +62,24 @@ fun OrderFormScreen(
 
         Spacer(modifier = Modifier.padding(vertical = 16.dp))
 
-        Button(
-            onClick = { onClick() },
-            enabled = orderUiState.isEntryValid
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Save")
+            Button(
+                onClick = { onClick() },
+                enabled = orderUiState.isEntryValid
+            ) {
+                Text(text = "Save")
+            }
+            if(orderUiState.orderDetails.id != 0) {
+                Spacer(modifier = Modifier.padding(horizontal = 16.dp))
+                Button(
+                    onClick = { onDelete() }
+                ) {
+                    Text(text = "Delete")
+                }
+            }
         }
-        Text(
-            text = "id: ${orderUiState.orderDetails.id}"
-        )
     }
 }

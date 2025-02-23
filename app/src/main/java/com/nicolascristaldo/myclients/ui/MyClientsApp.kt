@@ -64,7 +64,7 @@ fun MyClientsApp(
         topBar = {
             MyClientsTopAppBar(
                 currentScreen = currentScreen,
-                navigateBack = { navController.navigateUp() }
+                navController = navController
             )
         },
         bottomBar = {
@@ -99,6 +99,7 @@ fun MyClientsApp(
     ) { contentPadding ->
         Surface {
             MyClientsNavHost(
+                clientDetailsViewModel = clientDetailsViewModel,
                 ordersScreenViewModel = ordersScreenViewModel,
                 clientFormViewModel = clientFormViewModel,
                 orderFormViewModel = orderFormViewModel,
@@ -113,7 +114,7 @@ fun MyClientsApp(
 @Composable
 fun MyClientsTopAppBar(
     currentScreen: AppDestinations,
-    navigateBack: () -> Unit,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -130,36 +131,22 @@ fun MyClientsTopAppBar(
                         imageVector = Icons.Filled.MoreVert,
                         contentDescription = "options"
                     )
-                    DropdownMenu(
+                    ClientOptionsDropDownMenu(
                         expanded = expanded,
-                        onDismissRequest = { expanded = false }
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("Edit") },
-                            onClick = {
-                                expanded = false
-                                //navigateToClientFormEdit()
-                            }
-                        )
-                        HorizontalDivider()
-                        DropdownMenuItem(
-                            text = { Text("Delete") },
-                            onClick = {
-                                expanded = false
-                                //deleteClient()
-                            }
-                        )
-                    }
+                        expandedChange = { expanded = false },
+                        navController = navController
+                    )
                 }
             }
         },
         navigationIcon = {
             if (
                 currentScreen.route != AppDestinations.Home.route &&
-                currentScreen.route != AppDestinations.Clients.route
+                currentScreen.route != AppDestinations.Clients.route &&
+                currentScreen.route != AppDestinations.Orders.route
             ) {
                 IconButton(
-                    onClick = { navigateBack() }
+                    onClick = { navController.popBackStack() }
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -202,5 +189,39 @@ fun MyClientsBottomBar(
                 }
             )
         }
+    }
+}
+
+@Composable
+fun ClientOptionsDropDownMenu(
+    clientDetailsViewModel: ClientDetailsViewModel = hiltViewModel(),
+    navController: NavHostController,
+    expanded: Boolean,
+    expandedChange: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expandedChange() },
+        modifier = modifier
+    ) {
+        DropdownMenuItem(
+            text = { Text("Edit") },
+            onClick = {
+                expandedChange()
+                navController.navigate(AppDestinations.ClientFormEdit.createRoute(
+                        clientDetailsViewModel.client.value?.id ?: 0)
+                )
+            }
+        )
+        HorizontalDivider()
+        DropdownMenuItem(
+            text = { Text("Delete") },
+            onClick = {
+                expandedChange()
+                clientDetailsViewModel.deleteClient()
+                navController.popBackStack()
+            }
+        )
     }
 }

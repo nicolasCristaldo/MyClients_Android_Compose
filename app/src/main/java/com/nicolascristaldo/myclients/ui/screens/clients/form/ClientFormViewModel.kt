@@ -27,7 +27,7 @@ class ClientFormViewModel @Inject constructor(
             }
     }
 
-    private fun resetUiState() {
+    fun resetUiState() {
         clientUiState = ClientUiState()
     }
 
@@ -48,18 +48,11 @@ class ClientFormViewModel @Inject constructor(
         if(validateInput()) {
             customerRepository.insertCustomer(clientUiState.clientDetails.toCustomer())
         }
-        resetUiState()
     }
 
     fun updateClient() = viewModelScope.launch {
         if(validateInput(clientUiState.clientDetails)) {
             customerRepository.updateCustomer(clientUiState.clientDetails.toCustomer())
         }
-        resetUiState()
-    }
-
-    fun deleteClient() = viewModelScope.launch {
-        customerRepository.deleteCustomer(clientUiState.clientDetails.toCustomer())
-        resetUiState()
     }
 }

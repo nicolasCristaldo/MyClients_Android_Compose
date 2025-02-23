@@ -27,7 +27,7 @@ class OrderFormViewModel @Inject constructor(
             }
     }
 
-    private fun resetUiState() {
+    fun resetUiState() {
         orderUiState = OrderUiState()
     }
 
@@ -48,18 +48,17 @@ class OrderFormViewModel @Inject constructor(
         if (validateInput()) {
             orderRepository.insertOrder(orderUiState.orderDetails.toOrder())
         }
-        resetUiState()
     }
 
     fun updateOrder() = viewModelScope.launch {
         if (validateInput(orderUiState.orderDetails)) {
-            orderRepository.updateOrder(orderUiState.orderDetails.toOrder())
+            orderRepository.updateOrder(
+                orderUiState.orderDetails.toOrder()
+            )
         }
-        resetUiState()
     }
 
     fun deleteOrder() = viewModelScope.launch {
         orderRepository.deleteOrder(orderUiState.orderDetails.toOrder())
-        resetUiState()
     }
 }

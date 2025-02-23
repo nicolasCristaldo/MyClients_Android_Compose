@@ -6,10 +6,8 @@ import com.nicolascristaldo.myclients.data.repositories.CustomerRepository
 import com.nicolascristaldo.myclients.data.repositories.OrderRepository
 import com.nicolascristaldo.myclients.domain.model.Customer
 import com.nicolascristaldo.myclients.domain.model.Order
-import com.nicolascristaldo.myclients.domain.usecases.GetTotalEarnedUseCase
 import com.nicolascristaldo.myclients.domain.usecases.GetTotalPaidByCustomerUseCase
 import com.nicolascristaldo.myclients.domain.usecases.GetTotalPendingByCustomerUseCase
-import com.nicolascristaldo.myclients.domain.usecases.GetTotalPendingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -52,5 +50,9 @@ class ClientDetailsViewModel @Inject constructor(
         orderRepository.getOrdersByCustomerId(id).collect {
             _clientOrders.value = it
         }
+    }
+
+    fun deleteClient() = viewModelScope.launch {
+        customerRepository.deleteCustomer(client.value!!)
     }
 }

@@ -2,84 +2,89 @@ package com.nicolascristaldo.myclients.ui.screens.orders.form
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.nicolascristaldo.myclients.ui.components.AppTextField
+import com.nicolascristaldo.myclients.ui.components.DeleteConfirmationDialog
+import com.nicolascristaldo.myclients.ui.screens.clients.form.isValidInput
+import com.nicolascristaldo.myclients.ui.screens.orders.form.components.LabeledSwitch
+import com.nicolascristaldo.myclients.ui.screens.orders.form.components.OrderFormButtons
 
 @Composable
 fun OrderFormScreen(
     orderUiState: OrderUiState,
     onValueChange: (OrderDetails) -> Unit,
-    onClick: () -> Unit,
-    onDelete: () -> Unit = {},
+    onSave: () -> Unit,
+    deleteOrder: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    var isDeleteDialogVisible by remember { mutableStateOf(false) }
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier
     ) {
-        Text(text = "Order form screen")
-        OutlinedTextField(
+        AppTextField(
             value = orderUiState.orderDetails.description,
-            onValueChange = {
-                onValueChange(orderUiState.orderDetails.copy(description = it))
-            },
-            label = { Text(text = "Description") },
-            maxLines = 5,
-            singleLine = false
+            onValueChange = { onValueChange(orderUiState.orderDetails.copy(description = it)) },
+            label = "Description",
+            validateInput = { isValidInput(it) },
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-        OutlinedTextField(
+        AppTextField(
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             value = orderUiState.orderDetails.total,
-            onValueChange = {
-                onValueChange(orderUiState.orderDetails.copy(total = it))
-            },
-            label = { Text(text = "Total") },
-            singleLine = true
+            onValueChange = { onValueChange(orderUiState.orderDetails.copy(total = it)) },
+            validateInput = { isValidPrice(it) },
+            label = "Total",
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-        Switch(
-            checked = orderUiState.orderDetails.isPaid,
-            onCheckedChange = {
-                onValueChange(orderUiState.orderDetails.copy(isPaid = it))
-            }
+        LabeledSwitch(
+            title = "Paid status",
+            description = "Is the order paid?",
+            isPaid = orderUiState.orderDetails.isPaid,
+            onValueChange = { onValueChange(orderUiState.orderDetails.copy(isPaid = it)) },
+            modifier = Modifier
+                .height(70.dp)
+                .width(300.dp)
+                .padding(bottom = 16.dp)
         )
 
-        Spacer(modifier = Modifier.padding(vertical = 16.dp))
-
-        Row(
-            horizontalArrangement = Arrangement.Center,
+        OrderFormButtons(
+            id = orderUiState.orderDetails.id,
+            enabled = orderUiState.isEntryValid,
+            onSave = onSave,
+            onDelete = { isDeleteDialogVisible = true },
             modifier = Modifier.fillMaxWidth()
-        ) {
-            Button(
-                onClick = { onClick() },
-                enabled = orderUiState.isEntryValid
-            ) {
-                Text(text = "Save")
-            }
-            if(orderUiState.orderDetails.id != 0) {
-                Spacer(modifier = Modifier.padding(horizontal = 16.dp))
-                Button(
-                    onClick = { onDelete() }
-                ) {
-                    Text(text = "Delete")
-                }
-            }
-        }
+        )
+    }
+
+    if (isDeleteDialogVisible) {
+        DeleteConfirmationDialog(
+            content = "Are you sure you want to delete this order?",
+            onConfirm = {
+                deleteOrder()
+                isDeleteDialogVisible = false
+            },
+            onDismiss = { isDeleteDialogVisible = false }
+        )
     }
 }
+
+
+

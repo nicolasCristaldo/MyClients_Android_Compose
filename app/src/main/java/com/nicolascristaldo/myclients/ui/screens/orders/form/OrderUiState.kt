@@ -52,9 +52,7 @@ fun isValidPrice(price: String): Boolean {
     var isValid = true
 
     try {
-        if (price != "") {
-            price.toDouble()
-        }
+        price.toDouble()
     } catch (e: Exception) {
         isValid = false
     }

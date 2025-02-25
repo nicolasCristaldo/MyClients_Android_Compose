@@ -1,5 +1,6 @@
 package com.nicolascristaldo.myclients.ui.screens.clients.details
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nicolascristaldo.myclients.data.repositories.CustomerRepository
@@ -10,6 +11,7 @@ import com.nicolascristaldo.myclients.domain.usecases.GetTotalPaidByCustomerUseC
 import com.nicolascristaldo.myclients.domain.usecases.GetTotalPendingByCustomerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,6 +34,13 @@ class ClientDetailsViewModel @Inject constructor(
     private var _totalPending = MutableStateFlow(0.0)
     val totalPending get() = _totalPending
 
+    private var _deleteAlertIsExpanded = mutableStateOf(false)
+    val deleteAlertIsExpanded get() = _deleteAlertIsExpanded
+
+    fun setDeleteAlertExpanded(value: Boolean) {
+        _deleteAlertIsExpanded.value = value
+    }
+
     fun getTotalPaid(id: Int) = viewModelScope.launch {
         _totalPaid.value = getTotalPaidByCustomerUseCase(id)
     }
@@ -42,6 +51,12 @@ class ClientDetailsViewModel @Inject constructor(
 
     fun getClient(id: Int) = viewModelScope.launch {
         customerRepository.getCustomerById(id).collect {
+            _client.value = it
+        }
+    }
+
+    fun getLastClient() = viewModelScope.launch {
+        customerRepository.getLastCustomer().collectLatest {
             _client.value = it
         }
     }

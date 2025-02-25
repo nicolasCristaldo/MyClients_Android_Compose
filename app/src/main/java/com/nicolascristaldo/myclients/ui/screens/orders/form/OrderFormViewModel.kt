@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nicolascristaldo.myclients.data.repositories.OrderRepository
+import com.nicolascristaldo.myclients.ui.screens.clients.form.isValidInput
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
@@ -27,13 +28,11 @@ class OrderFormViewModel @Inject constructor(
             }
     }
 
-    fun resetUiState() {
-        orderUiState = OrderUiState()
-    }
+    fun resetUiState() { orderUiState = OrderUiState() }
 
     private fun validateInput(uiState: OrderDetails = orderUiState.orderDetails): Boolean {
         return with(uiState) {
-            total.isNotBlank() && description.isNotBlank()
+            isValidPrice(total) && isValidInput(description)
         }
     }
 

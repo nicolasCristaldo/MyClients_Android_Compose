@@ -1,10 +1,15 @@
 package com.nicolascristaldo.myclients.ui.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -20,14 +25,15 @@ import com.nicolascristaldo.myclients.ui.screens.orders.form.OrderFormScreen
 import com.nicolascristaldo.myclients.ui.screens.orders.form.OrderFormViewModel
 import com.nicolascristaldo.myclients.ui.screens.orders.list.OrdersScreen
 import com.nicolascristaldo.myclients.ui.screens.orders.list.OrdersScreenViewModel
-import com.nicolascristaldo.myclients.ui.screens.stats.StatsScreen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyClientsNavHost(
     clientDetailsViewModel: ClientDetailsViewModel,
-    ordersScreenViewModel: OrdersScreenViewModel,
-    clientFormViewModel: ClientFormViewModel,
-    orderFormViewModel: OrderFormViewModel,
+    ordersScreenViewModel: OrdersScreenViewModel = hiltViewModel(),
+    clientFormViewModel: ClientFormViewModel = hiltViewModel(),
+    orderFormViewModel: OrderFormViewModel = hiltViewModel(),
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
@@ -60,10 +66,6 @@ fun MyClientsNavHost(
             )
         }
 
-        composable(route = AppDestinations.Stats.route) {
-            StatsScreen()
-        }
-
         composable(
             route = AppDestinations.ClientDetails.route,
             arguments = listOf(navArgument("id") { type = NavType.IntType })
@@ -77,16 +79,12 @@ fun MyClientsNavHost(
             }
 
             ClientDetailsScreen(
-                onEditClick = {
-                    navController.navigate(AppDestinations.ClientFormEdit.createRoute(id = it))
-                },
                 viewModel = clientDetailsViewModel,
-                onAddOrderClick = {
-                    navController.navigate(AppDestinations.OrderFormAdd.createRoute(customerId = id))
-                },
+                navController = navController,
                 onOrderClick = {
                     navController.navigate(AppDestinations.OrderFormEdit.createRoute(id = it))
-                }
+                },
+                modifier = Modifier.padding(8.dp)
             )
         }
 
@@ -99,7 +97,7 @@ fun MyClientsNavHost(
 
             ClientFormScreen(
                 clientUiState = clientFormViewModel.clientUiState,
-                onClick = {
+                onButtonClick = {
                     clientFormViewModel.saveClient()
                     navController.popBackStack()
                 },
@@ -119,7 +117,7 @@ fun MyClientsNavHost(
 
             ClientFormScreen(
                 clientUiState = clientFormViewModel.clientUiState,
-                onClick = {
+                onButtonClick = {
                     clientFormViewModel.updateClient()
                     navController.popBackStack()
                 },
@@ -145,10 +143,11 @@ fun MyClientsNavHost(
             OrderFormScreen(
                 orderUiState = orderFormViewModel.orderUiState,
                 onValueChange = { orderFormViewModel.updateUiState(it) },
-                onClick = {
+                onSave = {
                     orderFormViewModel.saveOrder()
                     navController.popBackStack()
-                }
+                },
+                modifier = Modifier.fillMaxSize()
             )
         }
 
@@ -158,20 +157,21 @@ fun MyClientsNavHost(
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("id") ?: 0
             LaunchedEffect(id) {
-                if(id != 0) orderFormViewModel.retrieveOrder(id)
+                if (id != 0) orderFormViewModel.retrieveOrder(id)
             }
 
             OrderFormScreen(
                 orderUiState = orderFormViewModel.orderUiState,
                 onValueChange = { orderFormViewModel.updateUiState(it) },
-                onClick = {
+                onSave = {
                     orderFormViewModel.updateOrder()
                     navController.popBackStack()
                 },
-                onDelete = {
+                deleteOrder = {
                     orderFormViewModel.deleteOrder()
                     navController.popBackStack()
-                }
+                },
+                modifier = Modifier.fillMaxSize()
             )
         }
     }

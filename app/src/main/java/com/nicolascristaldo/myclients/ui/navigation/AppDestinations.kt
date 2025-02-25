@@ -21,11 +21,6 @@ sealed class AppDestinations(
         title = R.string.orders_screen
     )
 
-    data object Stats : AppDestinations(
-        route = "stats",
-        title = R.string.stats_screen
-    )
-
     data object ClientDetails : AppDestinations(
         route = "client/details/{id}",
         title = R.string.client_details_screen

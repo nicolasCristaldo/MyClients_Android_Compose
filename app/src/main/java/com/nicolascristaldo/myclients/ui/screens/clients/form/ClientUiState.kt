@@ -1,5 +1,6 @@
 package com.nicolascristaldo.myclients.ui.screens.clients.form
 
+import android.util.Patterns
 import com.nicolascristaldo.myclients.domain.model.Customer
 
 data class ClientUiState(
@@ -38,3 +39,15 @@ fun Customer.toUiState(isEntryValid: Boolean = false): ClientUiState = ClientUiS
     clientDetails = this.toClientDetails(),
     isEntryValid = isEntryValid
 )
+
+fun isValidEmail(email: String): Boolean {
+    return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+}
+
+fun isValidPhone(phone: String): Boolean {
+    return Patterns.PHONE.matcher(phone).matches()
+}
+
+fun isValidInput(input: String): Boolean {
+    return input.isNotBlank() && input.length <= 30
+}

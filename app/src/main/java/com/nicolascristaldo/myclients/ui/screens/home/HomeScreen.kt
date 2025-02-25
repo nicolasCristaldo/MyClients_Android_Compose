@@ -2,7 +2,6 @@ package com.nicolascristaldo.myclients.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,14 +26,6 @@ fun HomeScreen(
         HomeCard(
             onClick = { navController.navigate(AppDestinations.ClientFormAdd.route) },
             title = "add client",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        HomeCard(
-            onClick = { navController.navigate(AppDestinations.Stats.route) },
-            title = "Stats",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)

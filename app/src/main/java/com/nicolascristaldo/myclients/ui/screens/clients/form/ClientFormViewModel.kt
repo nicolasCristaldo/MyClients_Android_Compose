@@ -27,13 +27,11 @@ class ClientFormViewModel @Inject constructor(
             }
     }
 
-    fun resetUiState() {
-        clientUiState = ClientUiState()
-    }
+    fun resetUiState() { clientUiState = ClientUiState() }
 
     private fun validateInput(uiState: ClientDetails = clientUiState.clientDetails): Boolean {
         return with(uiState) {
-            name.isNotBlank() && email.isNotBlank()
+            isValidInput(name) && isValidEmail(email) && isValidPhone(phone) && isValidInput(address)
         }
     }
 

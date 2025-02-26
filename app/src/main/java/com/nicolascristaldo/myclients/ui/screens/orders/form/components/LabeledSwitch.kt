@@ -14,7 +14,8 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.nicolascristaldo.myclients.R
 
 @Composable
 fun LabeledSwitch(
@@ -35,7 +36,9 @@ fun LabeledSwitch(
             Text(text = description)
         }
         Spacer(Modifier.weight(1f))
-        VerticalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+        VerticalDivider(
+            modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_large))
+        )
         Switch(
             checked = isPaid,
             onCheckedChange = { onValueChange(it) },

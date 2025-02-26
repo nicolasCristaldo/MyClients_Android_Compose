@@ -10,7 +10,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.nicolascristaldo.myclients.R
 
 @Composable
 fun OrderFormButtons(
@@ -30,7 +32,7 @@ fun OrderFormButtons(
             onClick = { onSave() },
             enabled = enabled
         ) {
-            Text(text = "Save")
+            Text(text = stringResource(R.string.save))
         }
         if(id != 0) {
             Spacer(modifier = Modifier.padding(horizontal = 16.dp))
@@ -41,7 +43,7 @@ fun OrderFormButtons(
                     contentColor = MaterialTheme.colorScheme.onError
                 )
             ) {
-                Text(text = "Delete")
+                Text(text = stringResource(R.string.delete))
             }
         }
     }

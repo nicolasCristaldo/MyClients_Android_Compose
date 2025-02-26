@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.ui.navigation.AppDestinations
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +38,7 @@ fun MyClientsTopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.MoreVert,
-                        contentDescription = "options"
+                        contentDescription = stringResource(R.string.options)
                     )
                     ClientOptionsDropDownMenu(
                         expanded = expanded,
@@ -58,7 +59,7 @@ fun MyClientsTopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "go back"
+                        contentDescription = stringResource(R.string.go_back)
                     )
                 }
             }

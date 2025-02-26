@@ -7,14 +7,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.ui.screens.clients.details.ClientDetailsScreen
 import com.nicolascristaldo.myclients.ui.screens.clients.details.ClientDetailsViewModel
 import com.nicolascristaldo.myclients.ui.screens.clients.form.ClientFormScreen
@@ -25,8 +27,6 @@ import com.nicolascristaldo.myclients.ui.screens.orders.form.OrderFormScreen
 import com.nicolascristaldo.myclients.ui.screens.orders.form.OrderFormViewModel
 import com.nicolascristaldo.myclients.ui.screens.orders.list.OrdersScreen
 import com.nicolascristaldo.myclients.ui.screens.orders.list.OrdersScreenViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun MyClientsNavHost(
@@ -84,7 +84,7 @@ fun MyClientsNavHost(
                 onOrderClick = {
                     navController.navigate(AppDestinations.OrderFormEdit.createRoute(id = it))
                 },
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(dimensionResource(R.dimen.padding_normal))
             )
         }
 
@@ -102,7 +102,7 @@ fun MyClientsNavHost(
                     navController.popBackStack()
                 },
                 onValueChange = { clientFormViewModel.updateUiState(it) },
-                buttonTitle = "Save"
+                buttonTitle = stringResource(R.string.save)
             )
         }
 
@@ -122,7 +122,7 @@ fun MyClientsNavHost(
                     navController.popBackStack()
                 },
                 onValueChange = { clientFormViewModel.updateUiState(it) },
-                buttonTitle = "Edit"
+                buttonTitle = stringResource(R.string.edit)
             )
         }
 

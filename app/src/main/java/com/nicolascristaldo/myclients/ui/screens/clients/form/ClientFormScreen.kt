@@ -10,8 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
+import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.ui.components.AppTextField
 import com.nicolascristaldo.myclients.ui.screens.clients.form.components.GenresDropDownMenu
 
@@ -31,15 +33,15 @@ fun ClientFormScreen(
         AppTextField(
             value = clientUiState.clientDetails.name,
             onValueChange = { onValueChange(clientUiState.clientDetails.copy(name = it)) },
-            label = "Name",
+            label = stringResource(R.string.name),
             validateInput = { isValidInput(it) },
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_normal))
         )
 
         GenresDropDownMenu(
             clientDetails = clientUiState.clientDetails,
             onValueChange = onValueChange,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_normal))
         )
 
         AppTextField(
@@ -47,8 +49,8 @@ fun ClientFormScreen(
             value = clientUiState.clientDetails.email,
             onValueChange = { onValueChange(clientUiState.clientDetails.copy(email = it)) },
             validateInput = { isValidEmail(it) },
-            label = "Email",
-            modifier = Modifier.padding(bottom = 8.dp)
+            label = stringResource(R.string.email),
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_normal))
         )
 
         AppTextField(
@@ -56,16 +58,16 @@ fun ClientFormScreen(
             value = clientUiState.clientDetails.phone,
             onValueChange = { onValueChange(clientUiState.clientDetails.copy(phone = it)) },
             validateInput = { isValidPhone(it) },
-            label = "Phone",
-            modifier = Modifier.padding(bottom = 8.dp)
+            label = stringResource(R.string.phone),
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_normal))
         )
 
         AppTextField(
             value = clientUiState.clientDetails.address,
             onValueChange = { onValueChange(clientUiState.clientDetails.copy(address = it)) },
-            label = "Address",
+            label = stringResource(R.string.address),
             validateInput = { isValidInput(it) },
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_large))
         )
 
         Button(

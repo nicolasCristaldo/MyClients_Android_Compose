@@ -9,7 +9,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.domain.model.Order
 import com.nicolascristaldo.myclients.ui.components.OrderCard
 
@@ -34,13 +35,13 @@ fun OrderListScreen(
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_normal))
     ) {
         items(orders) { order ->
             OrderCard(
                 order = order,
                 modifier = Modifier
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = dimensionResource(R.dimen.padding_normal))
                     .fillMaxWidth()
                     .clickable {
                         onClick(order.id)

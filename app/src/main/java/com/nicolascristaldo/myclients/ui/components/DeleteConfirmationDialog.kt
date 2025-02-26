@@ -5,6 +5,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.nicolascristaldo.myclients.R
 
 @Composable
 fun DeleteConfirmationDialog(
@@ -29,14 +31,14 @@ fun DeleteConfirmationDialog(
         confirmButton = {
             TextButton(onClick = { onConfirm() }) {
                 Text(
-                    text = "yes"
+                    text = stringResource(R.string.yes)
                 )
             }
         },
         dismissButton = {
             TextButton(onClick = { onDismiss() }) {
                 Text(
-                    text = "no"
+                    text = stringResource(R.string.no)
                 )
             }
         },

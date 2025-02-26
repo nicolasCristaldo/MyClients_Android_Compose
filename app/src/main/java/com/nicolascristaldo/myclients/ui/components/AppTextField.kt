@@ -10,7 +10,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.nicolascristaldo.myclients.R
 
 @Composable
 fun AppTextField(
@@ -34,6 +35,6 @@ fun AppTextField(
         isError = !isValidValue,
         singleLine = true,
         modifier = modifier
-            .width(300.dp)
+            .width(dimensionResource(R.dimen.text_field_width))
     )
 }

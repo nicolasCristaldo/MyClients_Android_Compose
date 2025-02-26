@@ -14,7 +14,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.data.providers.GenreProvider
 import com.nicolascristaldo.myclients.ui.screens.clients.form.ClientDetails
 
@@ -36,12 +38,12 @@ fun GenresDropDownMenu(
         OutlinedTextField(
             value = clientDetails.genre,
             onValueChange = { },
-            label = { Text(text = "Genre") },
+            label = { Text(text = stringResource(R.string.genre)) },
             readOnly = true,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = dropdownIsExpanded) },
             modifier = Modifier
                 .menuAnchor()
-                .width(300.dp)
+                .width(dimensionResource(R.dimen.text_field_width))
         )
         ExposedDropdownMenu(
             expanded = dropdownIsExpanded,

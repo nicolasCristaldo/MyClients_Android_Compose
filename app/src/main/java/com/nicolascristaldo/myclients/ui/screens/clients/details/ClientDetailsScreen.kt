@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.ui.components.DeleteConfirmationDialog
 import com.nicolascristaldo.myclients.ui.screens.clients.details.components.ClientHeader
 import com.nicolascristaldo.myclients.ui.screens.clients.details.components.ClientStats
@@ -33,14 +35,16 @@ fun ClientDetailsScreen(
         ) {
             ClientHeader(
                 client = client!!,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_normal))
             )
             ClientStats(
                 totalPaid = totalPaid,
                 totalPending = totalPending,
                 modifier = Modifier.fillMaxWidth()
             )
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_normal))
+            )
             OrdersScreen(
                 orders = orders,
                 onClick = onOrderClick
@@ -48,7 +52,7 @@ fun ClientDetailsScreen(
         }
         if(viewModel.deleteAlertIsExpanded.value) {
             DeleteConfirmationDialog(
-                content = "Are you sure you want to delete this client?",
+                content = stringResource(R.string.delete_client_question),
                 onDismiss = { viewModel.setDeleteAlertExpanded(false) },
                 onConfirm = {
                     viewModel.deleteClient()

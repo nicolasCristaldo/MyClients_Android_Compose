@@ -15,7 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.domain.model.Customer
 import com.nicolascristaldo.myclients.ui.components.ClientImage
 
@@ -33,9 +34,9 @@ fun ClientListScreen(
                 client = client,
                 onClick = onClientClick,
                 modifier = Modifier
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .height(80.dp)
+                    .padding(dimensionResource(R.dimen.padding_normal))
+                    .clip(RoundedCornerShape(dimensionResource(R.dimen.card_corner_radius)))
+                    .height(dimensionResource(R.dimen.client_card_height))
                     .fillMaxWidth()
             )
         }
@@ -55,14 +56,14 @@ fun ClientCard(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.padding_normal))
                 .fillMaxSize()
         ) {
             ClientImage(
                 clientGenre = client.genre,
                 modifier = Modifier
-                    .padding(end = 16.dp)
-                    .size(72.dp)
+                    .padding(end = dimensionResource(R.dimen.padding_large))
+                    .size(dimensionResource(R.dimen.client_card_image_size))
             )
 
             Text(

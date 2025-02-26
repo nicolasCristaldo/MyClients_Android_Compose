@@ -14,8 +14,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
+import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.ui.components.AppTextField
 import com.nicolascristaldo.myclients.ui.components.DeleteConfirmationDialog
 import com.nicolascristaldo.myclients.ui.screens.clients.form.isValidInput
@@ -40,9 +42,9 @@ fun OrderFormScreen(
         AppTextField(
             value = orderUiState.orderDetails.description,
             onValueChange = { onValueChange(orderUiState.orderDetails.copy(description = it)) },
-            label = "Description",
+            label = stringResource(R.string.description),
             validateInput = { isValidInput(it) },
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_normal))
         )
 
         AppTextField(
@@ -50,19 +52,19 @@ fun OrderFormScreen(
             value = orderUiState.orderDetails.total,
             onValueChange = { onValueChange(orderUiState.orderDetails.copy(total = it)) },
             validateInput = { isValidPrice(it) },
-            label = "Total",
-            modifier = Modifier.padding(bottom = 8.dp)
+            label = stringResource(R.string.total),
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_normal))
         )
 
         LabeledSwitch(
-            title = "Paid status",
-            description = "Is the order paid?",
+            title = stringResource(R.string.paid_status),
+            description = stringResource(R.string.status_question),
             isPaid = orderUiState.orderDetails.isPaid,
             onValueChange = { onValueChange(orderUiState.orderDetails.copy(isPaid = it)) },
             modifier = Modifier
-                .height(70.dp)
-                .width(300.dp)
-                .padding(bottom = 16.dp)
+                .height(dimensionResource(R.dimen.labeled_switch_height))
+                .width(dimensionResource(R.dimen.text_field_width))
+                .padding(bottom = dimensionResource(R.dimen.padding_large))
         )
 
         OrderFormButtons(
@@ -76,7 +78,7 @@ fun OrderFormScreen(
 
     if (isDeleteDialogVisible) {
         DeleteConfirmationDialog(
-            content = "Are you sure you want to delete this order?",
+            content = stringResource(R.string.delete_order_question),
             onConfirm = {
                 deleteOrder()
                 isDeleteDialogVisible = false

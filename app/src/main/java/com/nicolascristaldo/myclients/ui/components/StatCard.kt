@@ -7,8 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.sp
+import com.nicolascristaldo.myclients.R
 
 @Composable
 fun StatCard(
@@ -19,7 +20,7 @@ fun StatCard(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(8.dp)
+        modifier = modifier.padding(dimensionResource(R.dimen.padding_normal))
     ) {
         Text(
             text = value,

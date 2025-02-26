@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.domain.model.Customer
 import com.nicolascristaldo.myclients.ui.components.ClientImage
 
@@ -23,8 +25,11 @@ fun ClientHeader(
         ClientImage(
             clientGenre = client.genre,
             modifier = Modifier
-                .padding(end = 16.dp, bottom = 16.dp)
-                .size(100.dp)
+                .padding(
+                    end = dimensionResource(R.dimen.padding_large),
+                    bottom = dimensionResource(R.dimen.padding_large)
+                )
+                .size(dimensionResource(R.dimen.client_header_image_size))
         )
         ClientInformation(
             client = client
@@ -42,16 +47,16 @@ fun ClientInformation(
     ) {
         Text(text = client.name)
         Text(
-            text = "email: " + client.email
+            text = stringResource(R.string.email_info, client.email)
         )
         if(client.phone.isNotBlank()) {
             Text(
-                text = "phone: " + client.phone
+                text = stringResource(R.string.phone_info, client.phone)
             )
         }
         if(client.address.isNotBlank()) {
             Text(
-                text = "address: " + client.address
+                text = stringResource(R.string.address_info, client.address)
             )
         }
     }

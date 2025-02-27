@@ -24,6 +24,7 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="total_paid">Total paid</string>
+    <string name="total_earned">Total earned</string>
     <string name="total_pending">Total pending</string>
     <string name="genre">Genre</string>
     <string name="name">Name</string>
@@ -34,14 +35,16 @@
     <string name="total">Total</string>
     <string name="paid_status">Paid status</string>
     <string name="status_question">Is the order paid?</string>
+    <string name="orders">Orders</string>
+    <string name="search_client">Search client</string>
 
-    <string name="status_info">Status: %</string>
-    <string name="order_info">Order: #%</string>
-    <string name="total_info">Total: %</string>
+    <string name="status_info">Status: %s</string>
+    <string name="order_info">Order: #%s</string>
+    <string name="total_info">Total: %ss</string>
 
-    <string name="email_info">Email: %</string>
-    <string name="phone_info">Phone: %</string>
-    <string name="address_info">Address: %</string>
+    <string name="email_info">Email: %s</string>
+    <string name="phone_info">Phone: %s</string>
+    <string name="address_info">Address: %s</string>
 
     <string name="delete_client_question">Are you sure you want to delete this client?</string>
     <string name="delete_order_question">Are you sure you want to delete this order?</string>

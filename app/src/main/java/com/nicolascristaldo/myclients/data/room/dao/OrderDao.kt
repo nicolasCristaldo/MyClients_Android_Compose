@@ -58,14 +58,6 @@ interface OrderDao {
     fun getOrdersByCustomerId(customerId: Int): Flow<List<OrderEntity>>
 
     /**
-     * Retrieves a list of orders with a specific payment status from the database.
-     * @param isPaid The payment status to filter the orders.
-     * @return A [Flow] emitting a list of orders with the specified payment status.
-     */
-    @Query("SELECT * FROM orders WHERE is_paid = :isPaid")
-    fun getOrdersByIsPaid(isPaid: Boolean): Flow<List<OrderEntity>>
-
-    /**
      * Retrieves the total amount of orders from the database.
      * @return A [Double] representing the total amount of orders.
      */

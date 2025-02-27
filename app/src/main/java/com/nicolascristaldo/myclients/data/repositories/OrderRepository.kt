@@ -58,14 +58,6 @@ class OrderRepository @Inject constructor(
         orderDao.getOrdersByCustomerId(customerId).map { orders -> orders.map { it.toDomain() } }
 
     /**
-     * Retrieves a list of orders with a specific payment status from the database.
-     * @param isPaid The payment status to filter the orders.
-     * @return A [Flow] emitting a list of orders with the specified payment status.
-     */
-    fun getOrdersByIsPaid(isPaid: Boolean): Flow<List<Order>> =
-        orderDao.getOrdersByIsPaid(isPaid).map { orders -> orders.map { it.toDomain() } }
-
-    /**
      * Retrieves the total amount of paid orders from the database.
      * @return A [Double] representing the total amount of orders.
      */

@@ -4,10 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nicolascristaldo.myclients.data.repositories.OrderRepository
 import com.nicolascristaldo.myclients.domain.model.Order
+import com.nicolascristaldo.myclients.domain.usecases.GetTotalEarnedUseCase
+import com.nicolascristaldo.myclients.domain.usecases.GetTotalPendingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -16,7 +20,9 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class OrdersScreenViewModel @Inject constructor(
-    orderRepository: OrderRepository
+    orderRepository: OrderRepository,
+    getTotalEarnedUseCase: GetTotalEarnedUseCase,
+    getTotalPendingUseCase: GetTotalPendingUseCase
 ): ViewModel() {
     private val _orders: StateFlow<List<Order>> =
         orderRepository.getAllOrders()
@@ -27,4 +33,14 @@ class OrdersScreenViewModel @Inject constructor(
             )
 
     val orders: StateFlow<List<Order>> get() = _orders
+
+    val totalEarned = MutableStateFlow(0.0)
+    val totalPending = MutableStateFlow(0.0)
+
+    init {
+        viewModelScope.launch {
+            totalEarned.value = getTotalEarnedUseCase()
+            totalPending.value = getTotalPendingUseCase()
+        }
+    }
 }

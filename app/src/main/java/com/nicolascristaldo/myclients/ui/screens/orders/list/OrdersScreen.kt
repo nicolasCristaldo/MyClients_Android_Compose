@@ -1,54 +1,47 @@
 package com.nicolascristaldo.myclients.ui.screens.orders.list
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.domain.model.Order
-import com.nicolascristaldo.myclients.ui.components.OrderCard
+import com.nicolascristaldo.myclients.ui.screens.orders.list.components.OrderListHeader
+import com.nicolascristaldo.myclients.ui.screens.orders.list.components.OrderListScreen
 
 @Composable
 fun OrdersScreen(
+    totalEarned: Double,
+    totalPending: Double,
     orders: List<Order>,
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    OrderListScreen(
-        orders = orders,
-        onClick = onClick,
+    Column(
         modifier = modifier
-    )
-}
-
-@Composable
-fun OrderListScreen(
-    orders: List<Order>,
-    onClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_normal))
     ) {
-        items(orders) { order ->
-            OrderCard(
-                order = order,
-                modifier = Modifier
-                    .padding(bottom = dimensionResource(R.dimen.padding_normal))
-                    .fillMaxWidth()
-                    .clickable {
-                        onClick(order.id)
-                    }
-            )
-        }
+        OrderListHeader(
+            totalPaid = totalEarned,
+            totalPending = totalPending,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_normal))
+        )
+
+        OrderListScreen(
+            orders = orders,
+            onClick = onClick
+        )
     }
 }
+
+
+
+
 
 

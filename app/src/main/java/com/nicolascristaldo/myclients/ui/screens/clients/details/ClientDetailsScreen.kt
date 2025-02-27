@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,7 +16,7 @@ import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.ui.components.DeleteConfirmationDialog
 import com.nicolascristaldo.myclients.ui.screens.clients.details.components.ClientHeader
 import com.nicolascristaldo.myclients.ui.screens.clients.details.components.ClientStats
-import com.nicolascristaldo.myclients.ui.screens.orders.list.OrdersScreen
+import com.nicolascristaldo.myclients.ui.screens.orders.list.components.OrderListScreen
 
 @Composable
 fun ClientDetailsScreen(
@@ -45,7 +46,10 @@ fun ClientDetailsScreen(
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_normal))
             )
-            OrdersScreen(
+            Text(
+                text = stringResource(R.string.orders)
+            )
+            OrderListScreen(
                 orders = orders,
                 onClick = onOrderClick
             )

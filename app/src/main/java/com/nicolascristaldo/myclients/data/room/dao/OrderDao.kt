@@ -42,6 +42,13 @@ interface OrderDao {
     fun getAllOrders(): Flow<List<OrderEntity>>
 
     /**
+     * Retrieves the last 10 orders from the database in descending order of date.
+     * @return A [Flow] emitting a list of the last 10 orders.
+     */
+    @Query("SELECT * FROM orders ORDER BY date DESC LIMIT 10")
+    fun getLastOrders(): Flow<List<OrderEntity>>
+
+    /**
      * Retrieves an order by its ID from the database.
      * @param id The ID of the order to retrieve.
      * @return A [Flow] emitting the order with the specified ID.

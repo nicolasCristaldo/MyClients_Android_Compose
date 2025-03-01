@@ -43,6 +43,10 @@ class ClientsScreenViewModel @Inject constructor(
 
     val clients: StateFlow<List<Customer>> get() = _clients
 
+    /**
+     * Sets the search query.
+     * @param query The new search query.
+     */
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
     }

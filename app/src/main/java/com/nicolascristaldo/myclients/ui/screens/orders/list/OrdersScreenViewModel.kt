@@ -17,6 +17,8 @@ import javax.inject.Inject
 /**
  * ViewModel for the Orders screen.
  * @param orderRepository The repository for managing orders.
+ * @param getTotalEarnedUseCase The use case for getting the total earned.
+ * @param getTotalPendingUseCase The use case for getting the total pending.
  */
 @HiltViewModel
 class OrdersScreenViewModel @Inject constructor(
@@ -33,6 +35,16 @@ class OrdersScreenViewModel @Inject constructor(
             )
 
     val orders: StateFlow<List<Order>> get() = _orders
+
+    private val _lastOrders: StateFlow<List<Order>> =
+        orderRepository.getLastOrders()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = emptyList()
+            )
+
+    val lastOrders: StateFlow<List<Order>> get() = _lastOrders
 
     val totalEarned = MutableStateFlow(0.0)
     val totalPending = MutableStateFlow(0.0)

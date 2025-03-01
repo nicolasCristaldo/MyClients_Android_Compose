@@ -10,11 +10,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.sp
 import com.nicolascristaldo.myclients.R
+import java.text.NumberFormat
 
 @Composable
 fun StatCard(
     title: String,
-    value: String,
+    value: Double,
     color: Color,
     modifier: Modifier = Modifier
 ) {
@@ -23,9 +24,9 @@ fun StatCard(
         modifier = modifier.padding(dimensionResource(R.dimen.padding_normal))
     ) {
         Text(
-            text = value,
+            text = NumberFormat.getCurrencyInstance().format(value),
             color = color,
-            fontSize = 28.sp,
+            fontSize = 32.sp,
         )
 
         Text(

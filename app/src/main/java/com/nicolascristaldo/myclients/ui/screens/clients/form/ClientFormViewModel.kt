@@ -12,6 +12,10 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the client form screen.
+ * @property customerRepository The repository for managing customers.
+ */
 @HiltViewModel
 class ClientFormViewModel @Inject constructor(
     private val customerRepository: CustomerRepository
@@ -19,6 +23,10 @@ class ClientFormViewModel @Inject constructor(
     var clientUiState by mutableStateOf(ClientUiState())
         private set
 
+    /**
+     * Retrieves the client with the specified ID.
+     * @param id The ID of the client.
+     */
     fun retrieveClient(id: Int) = viewModelScope.launch {
         customerRepository.getCustomerById(id)
             .filterNotNull()
@@ -27,14 +35,26 @@ class ClientFormViewModel @Inject constructor(
             }
     }
 
+    /**
+     * Resets the UI state of the client form.
+     */
     fun resetUiState() { clientUiState = ClientUiState() }
 
+    /**
+     * Validates the input of the client form.
+     * @param uiState The UI state of the client form.
+     * @return A [Boolean] value indicating whether the input is valid.
+     */
     private fun validateInput(uiState: ClientDetails = clientUiState.clientDetails): Boolean {
         return with(uiState) {
             isValidInput(name) && isValidEmail(email) && isValidPhone(phone) && isValidInput(address)
         }
     }
 
+    /**
+     * Updates the UI state of the client form.
+     * @param clientDetails The details of the client.
+     */
     fun updateUiState(clientDetails: ClientDetails) {
         clientUiState = ClientUiState(
             clientDetails = clientDetails,
@@ -42,12 +62,18 @@ class ClientFormViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Saves the client to the database.
+     */
     fun saveClient() = viewModelScope.launch {
         if(validateInput()) {
             customerRepository.insertCustomer(clientUiState.clientDetails.toCustomer())
         }
     }
 
+    /**
+     * Updates the client in the database.
+     */
     fun updateClient() = viewModelScope.launch {
         if(validateInput(clientUiState.clientDetails)) {
             customerRepository.updateCustomer(clientUiState.clientDetails.toCustomer())

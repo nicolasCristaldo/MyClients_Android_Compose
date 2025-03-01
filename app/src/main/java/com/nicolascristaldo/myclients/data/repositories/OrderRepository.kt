@@ -42,6 +42,13 @@ class OrderRepository @Inject constructor(
         orderDao.getAllOrders().map { orders -> orders.map { it.toDomain() } }
 
     /**
+     * Retrieves the last 10 orders from the database in descending order of date.
+     * @return A [Flow] emitting a list of the last 10 orders.
+     */
+    fun getLastOrders(): Flow<List<Order>> =
+        orderDao.getLastOrders().map { orders -> orders.map { it.toDomain() } }
+
+    /**
      * Retrieves an order by its ID from the database.
      * @param id The ID of the order to retrieve.
      * @return A [Flow] emitting the order with the specified ID.

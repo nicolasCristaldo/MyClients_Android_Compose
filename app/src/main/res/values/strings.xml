@@ -37,10 +37,12 @@
     <string name="status_question">Is the order paid?</string>
     <string name="orders">Orders</string>
     <string name="search_client">Search client</string>
+    <string name="add_client">Add client</string>
+    <string name="last_orders">Last orders</string>
 
     <string name="status_info">Status: %s</string>
     <string name="order_info">Order: #%s</string>
-    <string name="total_info">Total: %ss</string>
+    <string name="total_info">Total: %s</string>
 
     <string name="email_info">Email: %s</string>
     <string name="phone_info">Phone: %s</string>

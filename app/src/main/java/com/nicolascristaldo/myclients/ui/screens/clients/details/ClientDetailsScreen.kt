@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.ui.components.DeleteConfirmationDialog
@@ -47,7 +48,8 @@ fun ClientDetailsScreen(
                 modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_normal))
             )
             Text(
-                text = stringResource(R.string.orders)
+                text = stringResource(R.string.orders),
+                fontSize = 24.sp
             )
             OrderListScreen(
                 orders = orders,

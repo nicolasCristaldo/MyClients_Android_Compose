@@ -56,11 +56,4 @@ interface CustomerDao {
      */
     @Query("SELECT * FROM customers WHERE name LIKE :name")
     fun getCustomerByName(name: String): Flow<List<CustomerEntity>>
-
-    /**
-     * Retrieves the last inserted customer from the database.
-     * @return A [CustomerEntity] representing the last inserted customer.
-     */
-    @Query("SELECT * FROM customers ORDER BY id DESC LIMIT 1")
-    fun getLastCustomer(): Flow<CustomerEntity?>
 }

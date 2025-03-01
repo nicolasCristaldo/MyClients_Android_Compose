@@ -11,10 +11,16 @@ import com.nicolascristaldo.myclients.domain.usecases.GetTotalPaidByCustomerUseC
 import com.nicolascristaldo.myclients.domain.usecases.GetTotalPendingByCustomerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the client details screen.
+ * @property customerRepository The repository for managing customers.
+ * @property orderRepository The repository for managing orders.
+ * @property getTotalPaidByCustomerUseCase The use case for retrieving total paid orders for a customer.
+ * @property getTotalPendingByCustomerUseCase The use case for retrieving total pending orders for a customer.
+ */
 @HiltViewModel
 class ClientDetailsViewModel @Inject constructor(
     private val customerRepository: CustomerRepository,
@@ -37,36 +43,53 @@ class ClientDetailsViewModel @Inject constructor(
     private var _deleteAlertIsExpanded = mutableStateOf(false)
     val deleteAlertIsExpanded get() = _deleteAlertIsExpanded
 
+    /**
+     * Sets the expanded state of the delete alert dialog.
+     * @param value The new expanded state.
+     */
     fun setDeleteAlertExpanded(value: Boolean) {
         _deleteAlertIsExpanded.value = value
     }
 
+    /**
+     * Retrieves the total paid orders for a customer.
+     * @param id The ID of the customer.
+     */
     fun getTotalPaid(id: Int) = viewModelScope.launch {
         _totalPaid.value = getTotalPaidByCustomerUseCase(id)
     }
 
+    /**
+     * Retrieves the total pending orders for a customer.
+     * @param id The ID of the customer.
+     */
     fun getTotalPending(id: Int) = viewModelScope.launch {
         _totalPending.value = getTotalPendingByCustomerUseCase(id)
     }
 
+    /**
+     * Retrieves the client with the specified ID.
+     * @param id The ID of the client.
+     */
     fun getClient(id: Int) = viewModelScope.launch {
         customerRepository.getCustomerById(id).collect {
             _client.value = it
         }
     }
 
-    fun getLastClient() = viewModelScope.launch {
-        customerRepository.getLastCustomer().collectLatest {
-            _client.value = it
-        }
-    }
-
+    /**
+     * Retrieves the orders associated with the client.
+     * @param id The ID of the client.
+     */
     fun getOrdersByCustomerId(id: Int) = viewModelScope.launch {
         orderRepository.getOrdersByCustomerId(id).collect {
             _clientOrders.value = it
         }
     }
 
+    /**
+     * Deletes the client.
+     */
     fun deleteClient() = viewModelScope.launch {
         customerRepository.deleteCustomer(client.value!!)
     }

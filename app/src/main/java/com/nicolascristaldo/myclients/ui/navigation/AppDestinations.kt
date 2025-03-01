@@ -2,6 +2,11 @@ package com.nicolascristaldo.myclients.ui.navigation
 
 import com.nicolascristaldo.myclients.R
 
+/**
+ * Represents the different destinations in the app.
+ * @property route The route for the destination.
+ * @property title The title for the destination.
+ */
 sealed class AppDestinations(
     val route: String,
     val title: Int

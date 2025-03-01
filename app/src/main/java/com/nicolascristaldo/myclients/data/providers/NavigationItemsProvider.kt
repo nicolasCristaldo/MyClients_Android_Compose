@@ -10,13 +10,25 @@ import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.nicolascristaldo.myclients.ui.navigation.AppDestinations
 
+/**
+ * Data class that represents a navigation item.
+ * @property name The name of the navigation item.
+ * @property selectedIcon The icon to display when the navigation item is selected.
+ * @property unselectedIcon The icon to display when the navigation item is not selected.
+ */
 data class NavigationItem(
     val name: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector
 )
 
+/**
+ * Object that provides a list of navigation items.
+ */
 object NavigationItemsProvider {
+    /**
+     * List of available navigation items.
+     */
     fun getNavigationItems(): List<NavigationItem> {
         return listOf(
             NavigationItem(

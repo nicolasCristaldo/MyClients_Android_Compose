@@ -44,8 +44,16 @@ fun MyClientsNavHost(
         modifier = modifier
     ) {
         composable(route = AppDestinations.Home.route) {
+            val lastOrders by ordersScreenViewModel.lastOrders.collectAsState()
             HomeScreen(
-                navController = navController
+                lastOrders = lastOrders,
+                navigateToAddClient = { navController.navigate(AppDestinations.ClientFormAdd.route) },
+                navigateToOrderDetails = {
+                    navController.navigate(AppDestinations.OrderFormEdit.createRoute(id = it))
+                },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(dimensionResource(R.dimen.padding_normal))
             )
         }
 

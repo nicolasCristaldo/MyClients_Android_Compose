@@ -56,11 +56,4 @@ class CustomerRepository @Inject constructor(
      */
     fun getCustomerByName(name: String): Flow<List<Customer>> =
         customerDao.getCustomerByName(name).map { customers -> customers.map { it.toDomain() } }
-
-    /**
-     * Retrieves the last inserted customer from the database.
-     * @return A [Customer] representing the last inserted customer.
-     */
-    fun getLastCustomer(): Flow<Customer?> =
-        customerDao.getLastCustomer().map { it?.toDomain() }
 }

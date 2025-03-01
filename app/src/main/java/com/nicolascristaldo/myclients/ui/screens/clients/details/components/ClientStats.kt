@@ -21,12 +21,12 @@ fun ClientStats(
     ) {
         StatCard(
             title = stringResource(R.string.total_paid),
-            value = totalPaid.toString(),
+            value = totalPaid,
             color = Color.Green
         )
         StatCard(
             title = stringResource(R.string.total_pending),
-            value = totalPending.toString(),
+            value = totalPending,
             color = Color.Red
         )
     }

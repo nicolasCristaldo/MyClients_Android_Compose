@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -45,7 +46,10 @@ fun ClientInformation(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        Text(text = client.name)
+        Text(
+            text = client.name,
+            style = MaterialTheme.typography.titleLarge
+        )
         Text(
             text = stringResource(R.string.email_info, client.email)
         )

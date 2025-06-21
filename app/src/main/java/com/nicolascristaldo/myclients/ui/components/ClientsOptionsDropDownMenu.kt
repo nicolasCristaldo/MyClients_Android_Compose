@@ -32,7 +32,9 @@ fun ClientOptionsDropDownMenu(
         options.forEachIndexed { index, option ->
             if (index != 0) HorizontalDivider()
             DropdownMenuItem(
-                text = { Text(option.title) },
+                text = {
+                    Text(option.title)
+                },
                 onClick = {
                     option.onClick()
                     expandedChange()

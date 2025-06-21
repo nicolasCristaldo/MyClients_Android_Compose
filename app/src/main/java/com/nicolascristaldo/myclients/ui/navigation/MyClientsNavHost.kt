@@ -83,7 +83,8 @@ fun MyClientsNavHost(
                 totalPending = totalPending,
                 onClick = {
                     navController.navigate(AppDestinations.OrderFormEdit.createRoute(id = it))
-                }
+                },
+                modifier = Modifier.padding(dimensionResource(R.dimen.padding_normal))
             )
         }
 

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +38,10 @@ fun ClientListHeader(
                 onValueChange(it)
             },
             placeholder = {
-                Text(text = stringResource(R.string.search_client))
+                Text(
+                    text = stringResource(R.string.search_client),
+                    style = MaterialTheme.typography.labelMedium
+                )
             },
             singleLine = true,
             leadingIcon = {
@@ -46,8 +50,7 @@ fun ClientListHeader(
                     contentDescription = null
                 )
             },
-            modifier = Modifier
-                .width(dimensionResource(R.dimen.text_field_width))
+            modifier = Modifier.width(dimensionResource(R.dimen.text_field_width))
         )
     }
 }

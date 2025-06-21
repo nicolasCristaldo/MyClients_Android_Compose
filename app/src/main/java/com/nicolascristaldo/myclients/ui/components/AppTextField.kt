@@ -2,6 +2,7 @@ package com.nicolascristaldo.myclients.ui.components
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,10 +32,14 @@ fun AppTextField(
             onValueChange(it)
             isValidValue = validateInput(it)
         },
-        label = { Text(text = label) },
+        label = {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelMedium
+            )
+        },
         isError = !isValidValue,
         singleLine = true,
-        modifier = modifier
-            .width(dimensionResource(R.dimen.text_field_width))
+        modifier = modifier.width(dimensionResource(R.dimen.text_field_width))
     )
 }

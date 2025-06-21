@@ -5,12 +5,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.nicolascristaldo.myclients.R
 import com.nicolascristaldo.myclients.domain.model.Order
@@ -27,10 +27,13 @@ fun OrderCard(
         Text(
             text = stringResource(R.string.order_info, order.id),
             textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.fillMaxWidth()
         )
-        Text(text = order.description)
+        Text(
+            text = order.description,
+            style = MaterialTheme.typography.titleSmall
+        )
         Text(
             text = stringResource(R.string.status_info, if (order.isPaid) {
                 stringResource(R.string.paid)
@@ -44,7 +47,10 @@ fun OrderCard(
         ) {
             Text(text = stringResource(R.string.total_info, order.formatedPrice()))
             Spacer(modifier = Modifier.weight(1f))
-            Text(text = order.date)
+            Text(
+                text = order.date,
+                style = MaterialTheme.typography.labelLarge
+            )
         }
         HorizontalDivider()
     }

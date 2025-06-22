@@ -1,7 +1,9 @@
 # 📋 My Clients
 
 An Android app built with Jetpack Compose that manages clients and their orders. You can add, edit, and delete clients and orders, and track total paid and pending amounts. Uses Room for local storage and Hilt for dependency injection.
-<img src="screens/MyClients5.jpeg" alt="Home Screen" width="220"> 
+| Home |
+|--------------|
+| <img src="screens/MyClients5.jpeg" alt="Home Screen" width="220"> |
 ---
 
 ## 🚀 Features

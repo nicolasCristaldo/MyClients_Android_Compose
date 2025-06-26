@@ -42,3 +42,11 @@ The app follows clean MVVM architecture:
 - **UI Layer**: Composable screens observe ViewModel state and render UI.
 - **ViewModel**: Handles UI events, business logic, and interacts with the repository.
 - **Repository & Room**: Abstracts data storage with queries for clients and their orders.
+
+## 📥 Download
+
+You can download the APK from the releases folder:
+
+[Download APK](https://github.com/nicolasCristaldo/MyClients_Android_Compose/blob/main/app/release/my_clients.apk)
+
+**Note**: Ensure your device allows installation from unknown sources to install the APK. After clicking the link, select the "Download" button to get the file.
